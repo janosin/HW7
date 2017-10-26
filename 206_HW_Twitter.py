@@ -2,10 +2,10 @@ import unittest
 import tweepy
 import requests
 import json
-
+import twitter_info
 ## SI 206 - HW
 ## COMMENT WITH:
-## Your section day/time:
+## Your section day/time: Wednesday @ 6-7
 ## Any names of people you worked with on this assignment:
 
 
@@ -46,10 +46,14 @@ import json
 ## Get your secret values to authenticate to Twitter. You may replace each of these 
 ## with variables rather than filling in the empty strings if you choose to do the secure way 
 ## for EC points
-consumer_key = "" 
-consumer_secret = ""
-access_token = ""
-access_token_secret = ""
+
+consumer_key = twitter_info.consumer_key
+consumer_secret = twitter_info.consumer_secret
+access_token = twitter_info.access_token
+access_token_secret = twitter_info.access_token_secret
+auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
+auth.set_access_token(access_token, access_token_secret)
+
 ## Set up your authentication to Twitter
 auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token, access_token_secret)
@@ -57,6 +61,9 @@ auth.set_access_token(access_token, access_token_secret)
 # return it in a JSON-formatted way
 
 api = tweepy.API(auth, parser=tweepy.parsers.JSONParser()) 
+
+
+
 
 ## Write the rest of your code here!
 
@@ -66,9 +73,16 @@ api = tweepy.API(auth, parser=tweepy.parsers.JSONParser())
 
 
 
+
 ## 2. Write a function to get twitter data that works with the caching pattern, 
 ## 		so it either gets new data or caches data, depending upon what the input 
 ##		to search for is. 
+
+def get_tweets(t):
+	
+	results = api.search(q = t)
+	 
+	
 
 
 
@@ -82,8 +96,13 @@ api = tweepy.API(auth, parser=tweepy.parsers.JSONParser())
 
 
 
+def main():
+	print ("Enter your search")
+	s = input()
+	get_tweets(s)
+	
+	return
 
-
-
+main()
 
 
