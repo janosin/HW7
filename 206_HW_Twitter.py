@@ -70,6 +70,15 @@ api = tweepy.API(auth, parser=tweepy.parsers.JSONParser())
 #### Recommended order of tasks: ####
 ## 1. Set up the caching pattern start -- the dictionary and the try/except 
 ## 		statement shown in class.
+CACHE_FNAME = 'cache_tweets.json'
+
+try:
+	cache_file = open(CACHE_FNAME, 'r') # Try to read the data from the file
+	cache_contents = cache_file.read()  # If it's there, get it into a string
+	CACHE_DICTION = json.loads(cache_contents) # And then load it into a dictionary
+	cache_file.close() # Close the file, we're good, we got the data in a dictionary.
+except:
+	CACHE_DICTION = {}
 
 
 
@@ -80,9 +89,20 @@ api = tweepy.API(auth, parser=tweepy.parsers.JSONParser())
 
 def get_tweets(t):
 	
-	results = api.search(q = t)
-	 
 	
+	 
+	if t in CACHE_DICTION:
+		print("Data was in the cache")
+		return CACHE_DICTION[t]
+	else:
+		print("Fetching")
+		print ("hello")
+	
+		results = api.search(q = t)
+	list_of_umich_tweets = results["statuses"]
+	for tweet in list_of_umich_tweets[:5]:
+		print(tweet["text"])
+		print("\n")
 
 
 
